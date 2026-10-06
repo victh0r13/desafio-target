@@ -4,12 +4,16 @@ namespace DesafioTarget.Comissoes;
 
 public static class CalculadoraComissao
 {
-    public static decimal Percentual(decimal valorVenda) => valorVenda switch
+    public static decimal Percentual(decimal valorVenda)
     {
-        < 100m => 0m,
-        < 500m => 0.01m,
-        _ => 0.05m
-    };
+        if (valorVenda < 100)
+            return 0;
+
+        if (valorVenda < 500)
+            return 0.01m;
+
+        return 0.05m;
+    }
 
     public static decimal ComissaoDaVenda(decimal valorVenda) => valorVenda * Percentual(valorVenda);
 

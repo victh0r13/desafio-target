@@ -3,7 +3,7 @@ namespace DesafioTarget.Estoque;
 public class ControleEstoque
 {
     private readonly Dictionary<int, Produto> _produtos;
-    private readonly List<Movimentacao> _movimentacoes = [];
+    private readonly List<Movimentacao> _movimentacoes = new List<Movimentacao>();
     private int _ultimoId;
 
     public ControleEstoque(IEnumerable<Produto> produtos)
@@ -15,10 +15,13 @@ public class ControleEstoque
 
     public IReadOnlyList<Movimentacao> Movimentacoes => _movimentacoes;
 
-    public Produto BuscarProduto(int codigo) =>
-        _produtos.TryGetValue(codigo, out var produto)
-            ? produto
-            : throw new MovimentacaoInvalidaException($"Produto {codigo} não encontrado.");
+    public Produto BuscarProduto(int codigo)
+    {
+        if (!_produtos.ContainsKey(codigo))
+            throw new MovimentacaoInvalidaException($"Produto {codigo} não encontrado.");
+
+        return _produtos[codigo];
+    }
 
     public Movimentacao Movimentar(int codigoProduto, TipoMovimentacao tipo, int quantidade, string descricao)
     {
